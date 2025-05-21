@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maze Solver with Multiple Algorithms</title>
+  <link rel="stylesheet" href="./style.css">
+  <!-- Additional styles for algorithm visualization -->
+  <style>
+    /* Force the algorithm selector to display properly */
+    #algorithmContainer {
+      display: inline-block !important;
+      margin-left: 10px;
+    }
+    
+    /* Add some space between menu items */
+    #menu > * {
+      margin: 0 5px;
+    }
+    
+    /* Algorithm visualization colors */
+    .bfs-visited {
+      background-color: rgba(135, 206, 250, 0.5); /* Light blue for BFS */
+    }
+    
+    .dfs-visited {
+      background-color: rgba(255, 165, 0, 0.5); /* Orange for DFS */
+    }
+    
+    .astar-visited {
+      background-color: rgba(147, 112, 219, 0.5); /* Purple for A* */
+    }
+    
+    /* Make the solve button stand out */
+    #solveMazeBtn {
+      background-color: rgba(0, 100, 255, 0.4);
+      transition: background-color 0.3s;
+    }
+    
+    #solveMazeBtn:hover {
+      background-color: rgba(0, 100, 255, 0.7);
+    }
+    
+    /* Algorithm info box */
+    #algorithm-info {
+      margin-top: 420px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    #algorithm-info h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    
+    .algo-comparison {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    .algo-card {
+      flex: 1;
+      min-width: 30%;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    
+    .bfs-card {
+      background-color: rgba(135, 206, 250, 0.2);
+      border-left: 3px solid rgba(135, 206, 250, 1);
+    }
+    
+    .dfs-card {
+      background-color: rgba(255, 165, 0, 0.2);
+      border-left: 3px solid rgba(255, 165, 0, 1);
+    }
+    
+    .astar-card {
+      background-color: rgba(147, 112, 219, 0.2);
+      border-left: 3px solid rgba(147, 112, 219, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="page">
+
+    <div id="Message-Container">
+      <div id="message">
+        <h1>Congratulations!</h1>
+        <p>You are done.</p>
+        <p id="moves"></p>
+        <input id="okBtn" type="button" onclick="toggleVisablity('Message-Container')" value="Cool!" />
+      </div>
+    </div>
+
+    <br>
+    <div id="menu">
+      <div class="custom-select">
+        <select id="diffSelect">
+          <option value="10">Easy</option>
+          <option value="15">Medium</option>
+          <option value="25">Hard</option>
+          <option value="38">Extreme</option>                                      
+        </select>
+      </div>
+      <input id="startMazeBtn" type="button" onclick="makeMaze()" value="Start" />
+      
+      <!-- Algorithm selector directly in HTML -->
+      <div id="algorithmContainer" class="custom-select" style="display: inline-block; margin-left: 10px;">
+        <select id="algorithmSelect">
+          <option value="bfs">BFS Search</option>
+          <option value="dfs">DFS Search</option>
+          <option value="astar">A* Search</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="view">
+      <div id="mazeContainer">
+        <canvas id="mazeCanvas" class="border" height="1100" width="1100"></canvas>
+      </div>
+    </div>
+
+    <p id="instructions">Use arrow keys to drive your car to the garage, or select an algorithm and click Visualize & Solve!</p>
+
+    <!-- Algorithm info section -->
+    <div id="algorithm-info">
+      <h3>Search Algorithm Comparison</h3>
+      <div class="algo-comparison">
+        <div class="algo-card bfs-card">
+          <h4>BFS Search</h4>
+          <p>Explores all neighbor nodes at the present depth before moving to nodes at the next depth level.</p>
+          <p><strong>Guaranteed to find the shortest path</strong> in unweighted graphs.</p>
+        </div>
+        
+        <div class="algo-card dfs-card">
+          <h4>DFS Search</h4>
+          <p>Explores as far as possible along each branch before backtracking.</p>
+          <p>Uses less memory than BFS but <strong>may not find the shortest path</strong>.</p>
+        </div>
+        
+        <div class="algo-card astar-card">
+          <h4>A* Search</h4>
+          <p>Uses a heuristic (Manhattan distance) to guide search toward the goal.</p>
+          <p><strong>Combines efficiency and optimal pathfinding</strong> for faster solutions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
+  
+  <script>
+    // Simple initialization for the algorithm selector
+    window.addEventListener('load', function() {
+      // Set up event listener for algorithm selection change
+      const algoSelect = document.getElementById('algorithmSelect');
+      if (algoSelect) {
+        algoSelect.addEventListener('change', function() {
+          const solveBtn = document.getElementById('solveMazeBtn');
+          if (solveBtn) {
+            const algoName = this.options[this.selectedIndex].text;
+            solveBtn.value = `Visualize & Solve (${algoName})`;
+          }
+        });
+      }
+    });
+  </script>
+  
+  <script src="script.js"></script>
+  <script src="bfs-visualization.js"></script>
+  <script src="trail-tracker.js"></script>
+  <script src="search-algorithms.js"></script>
+  <script src="button-fix.js"></script>
+</body>
+</html>

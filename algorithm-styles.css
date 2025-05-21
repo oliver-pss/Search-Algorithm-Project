@@ -1,0 +1,114 @@
+
+
+#algorithmSelect {
+  margin-left: 10px;
+  background-color: rgba(0, 0, 0, 0.30);
+}
+
+
+.bfs-visited {
+  background-color: rgba(135, 206, 250, 0.5); 
+}
+
+.dfs-visited {
+  background-color: rgba(255, 165, 0, 0.5); 
+}
+
+.astar-visited {
+  background-color: rgba(147, 112, 219, 0.5);
+}
+
+.path-cell {
+  background-color: rgba(50, 205, 50, 0.7);
+}
+
+
+.algorithm-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.algorithm-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+
+#menu > * {
+  margin: 0 5px;
+}
+
+
+#solveMazeBtn {
+  background-color: rgba(0, 100, 255, 0.4);
+  transition: background-color 0.3s;
+}
+
+#solveMazeBtn:hover {
+  background-color: rgba(0, 100, 255, 0.7);
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  cursor: help;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -125px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.algorithm-info {
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  font-size: 14px;
+}
+
+.algorithm-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.algorithm-info th, .algorithm-info td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.algorithm-info th {
+  background-color: #f2f2f2;
+}
+
+.algorithm-info tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
